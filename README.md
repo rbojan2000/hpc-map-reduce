@@ -1,1 +1,1 @@
-# map-reduce-OpenMP
+# hpc-map-reduce
