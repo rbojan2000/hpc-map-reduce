@@ -1,11 +1,13 @@
 #include <stdio.h>
 #include <omp.h>
 #include "hash_map.h"
+#include "utils.h"
+#include "tokenizer.h"
 
 int main() {
     
     long file_size;
-    char *text = readFile("../input-text/text.txt", &file_size);
+    char *text = readFile("../input-text/Anna-Karenina.txt", &file_size);
     
     if (!text) {
         return 1;
@@ -15,17 +17,17 @@ int main() {
     printf("File content (%ld bytes):\n%s\n", file_size, text);
     #endif
 
-    free(text);
+    int wordCount;
+    
+    char **tokens = tokenize(text, &wordCount);
 
-    HashMap map1;
-    initHashMap(&map1);
+    printf("%d:\n", wordCount);
+    for (int i = 0; i < wordCount; i++) {
+        printf("Token: %s\n", tokens[i]);
+    }
 
-    addWord(&map1, "apple");
-    addWord(&map1, "banana");
-    addWord(&map1, "apple");
+    freeTokens(tokens, wordCount);
 
-    printHashMap(&map1);
 
-    printf("apple found: %d\n", findWord(&map1, "apple"));
     return 0;
 }

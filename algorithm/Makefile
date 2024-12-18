@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -Iinclude -fopenmp -O3
-SRC = src/main.c src/hash_map.c src/utils.c
+SRC = src/*
 OBJ = a.out
 RM = rm -f
 
