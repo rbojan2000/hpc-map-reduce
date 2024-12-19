@@ -1,33 +1,35 @@
 #include <stdio.h>
 #include <omp.h>
-#include "hash_map.h"
-#include "utils.h"
-#include "tokenizer.h"
+#include <serial.h>
+#include <utils.h>
 
 int main() {
     
     long file_size;
-    char *text = readFile("../input-text/Anna-Karenina.txt", &file_size);
-    
+    char *text = read_file("../input-text/test.txt", &file_size);
+
     if (!text) {
         return 1;
     }
 
     #if ENABLE_DEBUG
-    printf("File content (%ld bytes):\n%s\n", file_size, text);
+    printf("File content (%ld bytes):\n", file_size);
     #endif
 
-    int wordCount;
+    #if SERIAL
+    HashMap word_count;
+    serial_word_count(text, &word_count);
+    #endif
     
-    char **tokens = tokenize(text, &wordCount);
+    #if ENABLE_DEBUG
+    print_hash_map(&word_count);
+    #endif
 
-    printf("%d:\n", wordCount);
-    for (int i = 0; i < wordCount; i++) {
-        printf("Token: %s\n", tokens[i]);
-    }
-
-    freeTokens(tokens, wordCount);
-
+    #if PARALLEL
+    printf("hello from parallel imppl");
+    #endif
+    
+    free(text);
 
     return 0;
 }

@@ -6,6 +6,6 @@
 #include <ctype.h>
 #include <stdlib.h>
 
-char *readFile(const char *filename, long *file_size);
+char *read_file(const char *filename, long *file_size);
 
 #endif

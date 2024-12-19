@@ -13,15 +13,15 @@ typedef struct {
 } WordCount;
 
 typedef struct {
-    WordCount hashTable[HASH_SIZE];
+    WordCount hash_table[HASH_SIZE];
 } HashMap;
 
-void initHashMap(HashMap *map);
+void init_hash_map(HashMap *map);
 
-void addWord(HashMap *map, const char *word);
+void add_word(HashMap *map, const char *word);
 
-void printHashMap(HashMap *map);
+void print_hash_map(HashMap *map);
 
-int findWord(HashMap *map, const char *word);
+int find_word(HashMap *map, const char *word);
 
 #endif

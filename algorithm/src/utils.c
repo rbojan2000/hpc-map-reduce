@@ -1,6 +1,6 @@
-#include "utils.h"
+#include <utils.h>
 
-char *readFile(const char *filename, long *file_size) {
+char *read_file(const char *filename, long *file_size) {
     FILE *file = fopen(filename, "r");
     if (!file) {
         perror("Error opening file");
