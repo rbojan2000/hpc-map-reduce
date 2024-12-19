@@ -74,7 +74,8 @@ void parallel_word_count(char *text, long text_size) {
         }
     }
 
+    #if ENABLE_DEBUG
     printf("\n\nGlobal word count:\n");
     print_hash_map(&global_word_count);
-
+    #endif
 }

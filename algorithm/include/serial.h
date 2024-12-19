@@ -4,6 +4,6 @@
 #include <hash_map.h>
 #include <tokenizer.h>
 
-void serial_word_count(char *text, HashMap *word_count);
+void serial_word_count(char *text);
 
 #endif

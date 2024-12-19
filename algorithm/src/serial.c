@@ -1,7 +1,8 @@
 #include <serial.h>
 
-void serial_word_count(char *text, HashMap *word_count) {
-    init_hash_map(word_count);
+void serial_word_count(char *text) {
+    HashMap word_count;
+    init_hash_map(&word_count);
 
     int token_count;
     char **tokens = tokenize(text, &token_count);
@@ -11,8 +12,12 @@ void serial_word_count(char *text, HashMap *word_count) {
     #endif
 
     for (int i = 0; i < token_count; i++) {
-        add_word(word_count, tokens[i]);
+        add_word(&word_count, tokens[i]);
     }
+
+    #if ENABLE_DEBUG
+    print_hash_map(&word_count);
+    #endif
 
     free_tokens(tokens, token_count);
 }
