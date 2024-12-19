@@ -7,5 +7,6 @@
 #include <stdlib.h>
 
 char *read_file(const char *filename, long *file_size);
+char *repeat_text(char *text, long file_size, int n);
 
 #endif

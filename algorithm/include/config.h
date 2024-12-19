@@ -3,12 +3,12 @@
 
 #define ENABLE_DEBUG 1
 
-#define SERIAL 1
+#define SERIAL 0
 #define PARALLEL 1
 
-#define NUM_THREADS 2
+#define NUM_THREADS 5
 
 #define MAX_WORD_LEN 100
-#define HASH_SIZE 10000
+#define HASH_SIZE 5000
 
 #endif
