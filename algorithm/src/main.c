@@ -6,7 +6,7 @@
 
 int main() {
     const char *filename = "../input-text/Anna-Karenina.txt";
-    int n = 100;
+    int n = 50;
 
     long text_size;
     char *text = read_file(filename, &text_size);
@@ -34,7 +34,7 @@ int main() {
     printf("Running parallel implementation..\n\n");
 
     start_time = omp_get_wtime(); 
-    parallel_word_count(algorithm_input_text, text_size);
+    parallel_word_count(algorithm_input_text);
     end_time = omp_get_wtime(); 
     printf("Parallel implementation took %f seconds\n", end_time - start_time);
 

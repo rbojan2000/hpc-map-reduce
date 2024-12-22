@@ -1,9 +1,9 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#define ENABLE_DEBUG 0
+#define ENABLE_DEBUG 1
 
-#define SERIAL 1
+#define SERIAL 0
 #define PARALLEL 1
 
 #define NUM_THREADS 10

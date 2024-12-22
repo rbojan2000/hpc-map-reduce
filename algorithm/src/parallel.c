@@ -1,67 +1,47 @@
 #include <parallel.h>
 
-void parallel_word_count(char *text, long text_size) {
-    long part_size = text_size / NUM_THREADS;
-    long remainder = text_size % NUM_THREADS;
+void parallel_word_count(char *text) {
+
+    int token_count;
+    char **tokens = tokenize(text, &token_count);
+
+    #if ENABLE_DEBUG
+    printf("Number of tokens %d:\n", token_count);
+    #endif
 
     HashMap global_word_count;
     init_hash_map(&global_word_count);
 
+    int part_size = token_count / NUM_THREADS;
 
     HashMap local_word_counts[NUM_THREADS];
 
     #pragma omp parallel num_threads(NUM_THREADS)
     {
         // split
-
         int thread_id = omp_get_thread_num();
-        long start_index = thread_id * part_size + (thread_id < remainder ? thread_id : remainder);
-        long end_index = start_index + part_size + (thread_id < remainder ? 1 : 0);
 
-        if (end_index > text_size) {
-            end_index = text_size;
+        int start_index = thread_id * part_size;
+        int end_index;
+        if (thread_id == NUM_THREADS - 1) {
+            end_index = token_count;
+        } else {
+            end_index = start_index + part_size;
         }
 
-        long current_part_size = end_index - start_index;
-        char *part = (char *)malloc(current_part_size + 1);
-
-        if (!part) {
-            perror("Failed to allocate memory for part");
-        }
-
-        memcpy(part, text + start_index, current_part_size);
-        part[current_part_size] = '\0';
-
         #if ENABLE_DEBUG
-        printf("Thread %d (Part %d):\n%s\n\n", thread_id, thread_id, part);
+        printf("Thread %d, number of tokens %d:\n", thread_id, end_index-start_index);
         #endif
 
-        int token_count;
-        char **tokens = tokenize(part, &token_count);
-
-        #if ENABLE_DEBUG
-        printf("Thread %d, number of tokens: %d\n", thread_id, token_count);
-        #endif
-
-        
         // map
-
         init_hash_map(&local_word_counts[thread_id]);
 
-        for (int i = 0; i < token_count; i++) {
+        for (long i = start_index; i < end_index; i++) {
             add_word(&local_word_counts[thread_id], tokens[i]);
         }
-
-        #if ENABLE_DEBUG
-        printf("Thread %d, word count:\n", thread_id);        
-        print_hash_map(&local_word_counts[thread_id]);
-        #endif
-
-        free(part);
     }
 
     // reduce
-
     #pragma omp parallel for
     for (int i = 0; i < NUM_THREADS; i++) {
         for (int j = 0; j < HASH_SIZE; j++) {
@@ -78,4 +58,9 @@ void parallel_word_count(char *text, long text_size) {
     printf("\n\nGlobal word count:\n");
     print_hash_map(&global_word_count);
     #endif
+
+    for (int i = 0; i < token_count; i++) {
+        free(tokens[i]);
+    }
+    free(tokens);
 }

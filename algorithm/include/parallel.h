@@ -6,6 +6,6 @@
 #include <config.h>
 #include <omp.h>
 
-void parallel_word_count(char *text, long text_size);
+void parallel_word_count(char *text);
 
 #endif
