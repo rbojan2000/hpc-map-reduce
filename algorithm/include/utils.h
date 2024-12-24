@@ -1,12 +1,14 @@
 #ifndef UTILS_H
 #define UTILS_H
 
-#include <stdio.h>
-#include <string.h>
-#include <ctype.h>
-#include <stdlib.h>
+#include <sstream>
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <unordered_map>
 
-char *read_file(const char *filename, long *file_size);
-char *repeat_text(char *text, long file_size, int n);
+std::string repeat_text(const std::string &text, int n);
+std::string read_file(const std::string &file_path);
+void print_unordered_map(const std::unordered_map<std::string, int> &word_count);
 
 #endif
